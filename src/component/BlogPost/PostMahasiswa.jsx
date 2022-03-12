@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 
 const PostMahasiswa = (props) => {
     return (
-        <div className="artikel">
-            <div className="gambar-artikel">
-                <img src="http://placeimg.com/80/80/tech" alt="Gambar Tumbnail Mahasiswa" />
+        <div className="mahasiswa">
+            <div className="gambar-Mahasiswa">
+                <img src="http://placeimg.com/80/80/mit" alt="Gambar Tumbnail Mahasiswa"/>
             </div>
-            <div className="konten-artikel">
-                <div className="nim">{props.NIM}</div>
-                    <p className="nama">{props.nama}</p>
-                    <p className="alamat">{props.alamat}</p>
-                    <p className="hp">{props.hp}</p>
-                    <p className="angkatan">{props.angkatan}</p>
-                    <p className="status">{props.status}</p>
-                    <button className="btn btn-sm btn-warning" onClick={() => props.hapusArtikel(props.idArtikel)}>Hapus</button>
+            <div className="konten-mahasiswa">
+                <div className="nim-mahasiswa">{props.nim}</div>
+                    <p className="nama-mahasiswa">{props.nama}</p>
+                    <p className="alamat-mahasiswa">{props.alamat}</p>
+                    <p className="hp-mahasiswa">{props.hp}</p>
+                    <p className="angkatan-mahasiswa">{props.angkatan}</p>
+                    <p className="status-mahasiswa">{props.status}</p>
+                    <button className="btn btn-sm btn-warning" onClick={() => props.hapusMahasiswa(props.idMahasiswa)}>Hapus</button>
             </div>
         </div>
     )

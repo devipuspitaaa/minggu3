@@ -1,126 +1,127 @@
-import React, {Component} from "react";
-import './BlogPost.css';
-import PostMahasiswa from "../../component/BlogPost/PostMahasiswa";
+import React, {Component} from 'react';
+import './BlogPostMahasiswa.css';
+import PostMahasiswa from '../../component/BlogPost/PostMahasiswa';
 
-class BlogPostMahasiswa extends Component {
-    state = {                   // Komponen state dari React untuk statefull component
-        mahasiswa: [],        // Variabel array yang digunakan untuk menyimpan data API
-        insertArtikel: {        // Variabel yang digunakan untuk menampung sementara data yang akan di insert
-            userId: 1,          // Kolom userId, id, title, dan body sama, mengikuti kolom yang ada pada listArtikel.json 
+class BlogPostMahasiswa extends Component{
+    state = {                           //komponen untuk mengecek ketika component telah di mounting maka panggil API
+        listMahasiswa:[],
+        insertMahasiswa: {
             id: 1,
-            NIM: "",
+            nim: "",
             nama: "",
             alamat: "",
             hp: "",
             angkatan: "",
             status: ""
-        }
+        }                  // variabel array yang digunakan untuk menyimpan data API
     }
 
-    ambilDataDariServerAPI = () => {        // Fungsi untuk mengambil data dari API dengan penambahan sort dan order 
-        fetch(`http://localhost:3000/mahasiswa?_sort=id&_order=desc`)        // Penambahan sort dan order berdasarkan parameter
-            .then(response => response.json())      // Ubah response data dari URL API menjadi sebuah data json
-            .then(jsonHasilAmbilDariAPI => {        // Data json hasil ambil dari API kita masukkan ke dalam listArtikel pada state
+    ambilDataDariServerAPI = () => {
+        fetch('http://localhost:3002/mahasiswa?_sort=id&_order=desc')
+            .then(response => response.json())
+            .then(jsonHasilAmbilDariAPI => {
                 this.setState({
-                    mahasiswa: jsonHasilAmbilDariAPI
+                    listMahasiswa: jsonHasilAmbilDariAPI
                 })
             })
     }
+    
 
-    componentDidMount() {           // Komponen untuk mengecek ketika component telah di-mount-ing, maka panggil API
-        this.ambilDataDariServerAPI()   // Ambil data dari server API lokal
+    componentDidMount(){
+        this.ambilDataDariServerAPI()
     }
 
-    handleHapusArtikel = (data) => {        // Fungsi yang meng-handle button action hapus data
-        fetch(`http://localhost:3000/mahasiswa/${data}`, {method: 'DELETE'})        // Alamat URL API yang ingin kita HAPUS datanya
-            .then(res => {      // Ketika proses hapus berhasil, maka ambil data dari server API lokal
+    handleHapusMahasiswa = (data) => {
+        fetch(`http://localhost:3002/mahasiswa/${data}`, {method: 'DELETE'})
+            .then(res => {
                 this.ambilDataDariServerAPI()
             })
     }
 
-    handleTambahArtikel = (event) => {          // Fungsi untuk meng-handle form tambah data artikel 
-        let formInsertArtikel = {...this.state.insertArtikel};      // Clonning data state insertArtikel ke dalam variabel formInsertArtikel
-        let timestamp = new Date().getTime();                       // Digunakan untuk menyimpan waktu (sebagai ID artikel)
-        formInsertArtikel['id'] = timestamp;
-        formInsertArtikel[event.target.name] = event.target.value;  // Menyimpan data onchane ke formInsertArtikel sesuai dengan target yang diisi
+    handleTambahMahasiswa = (event) => {
+        let formInsertMahasiswa = {...this.state.insertMahasiswa};
+        let timeStamp = new Date().getTime();
+        formInsertMahasiswa['id'] = timeStamp;
+        formInsertMahasiswa[event.target.name] = event.target.value;
         this.setState({
-            insertArtikel: formInsertArtikel
+            insertMahasiswa: formInsertMahasiswa
         });
     }
 
-    handleTombolSimpan = () => {                                // Fungsi untuk meng-handle tombol simpan
-        fetch(`http://localhost:3000/mahasiswa`, {
-            method: 'post',                                     // Method POST untuk input/insert data
+    handleTombolSimpan = () => {
+        fetch('http://localhost:3002/mahasiswa', {
+            method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.state.insertArtikel)      // Kirimkan ke body request untuk data artikel yang akan ditambahkan (insert)
+            body: JSON.stringify(this.state.insertMahasiswa)
         })
-            .then( (response :Response ) => {
-                this.ambilDataDariServerAPI();                    // Reload / refresh data
+            .then((Response) => {
+                this.ambilDataDariServerAPI();
             });
     }
 
     render() {
         return(
-            <div className="post-artikel">
+            <div className="post-mahasiswa">
                 <div className="form pb-2 border-bottom">
                     <div className="form-group row">
-                        <label htmlFor="nim" className="col-sm-2 col-form-label">NIM</label>
+                        <label htmlFor="Nama" className="col-sm-2 col-form-label">NIM</label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" id="title" name="title" onChange={this.handleTambahArtikel}/>
+                            <input type="text" className="form-control" name="nim" id="nim" onChange={this.handleTambahMahasiswa}/>
                         </div>
                     </div>
-
                     <div className="form-group row">
-                        <label htmlFor="nama" className="col-sm-2 col-form-label">Nama</label>
+                        <label htmlFor="body" className="col-sm-2 col-form-label">Nama</label>
                         <div className="col-sm-10">
-                            <textarea className="form-control" id="body" name="body" rows="3" onChange={this.handleTambahArtikel}></textarea>
+                            <textarea className="form-control" id="nama" name="nama" cols="30" rows="3" onChange={this.handleTambahMahasiswa}></textarea>
                         </div>
                     </div>
-
                     <div className="form-group row">
-                        <label htmlFor="alamat" className="col-sm-2 col-form-label">Alamat</label>
+                        <label htmlFor="body" className="col-sm-2 col-form-label">Alamat</label>
                         <div className="col-sm-10">
-                            <textarea className="form-control" id="body" name="body" rows="3" onChange={this.handleTambahArtikel}></textarea>
+                            <textarea className="form-control" id="alamat" name="alamat" cols="30" rows="3" onChange={this.handleTambahMahasiswa}></textarea>
                         </div>
                     </div>
-
                     <div className="form-group row">
-                        <label htmlFor="hp" className="col-sm-2 col-form-label">Hp</label>
+                        <label htmlFor="body" className="col-sm-2 col-form-label">No. HP</label>
                         <div className="col-sm-10">
-                            <textarea className="form-control" id="body" name="body" rows="3" onChange={this.handleTambahArtikel}></textarea>
+                            <textarea className="form-control" id="hp" name="hp" cols="30" rows="3" onChange={this.handleTambahMahasiswa}></textarea>
                         </div>
                     </div>
-
                     <div className="form-group row">
-                        <label htmlFor="angkatan" className="col-sm-2 col-form-label">Angkatan</label>
+                        <label htmlFor="body" className="col-sm-2 col-form-label">Tahun Angkatan</label>
                         <div className="col-sm-10">
-                            <textarea className="form-control" id="body" name="body" rows="3" onChange={this.handleTambahArtikel}></textarea>
+                            <textarea className="form-control" id="angkatan" name="angkatan" cols="30" rows="3" onChange={this.handleTambahMahasiswa}></textarea>
                         </div>
                     </div>
-
                     <div className="form-group row">
-                        <label htmlFor="status" className="col-sm-2 col-form-label">Status</label>
+                        <label htmlFor="body" className="col-sm-2 col-form-label">Status</label>
                         <div className="col-sm-10">
-                            <textarea className="form-control" id="body" name="body" rows="3" onChange={this.handleTambahArtikel}></textarea>
+                            <textarea className="form-control" id="status" name="status" cols="30" rows="3" onChange={this.handleTambahMahasiswa}></textarea>
                         </div>
                     </div>
-                
                     <button type="submit" className="btn btn-primary" onClick={this.handleTombolSimpan}>Simpan</button>
                 </div>
-
                 <h2>Daftar Mahasiswa</h2>
                 {
-                    this.state.mahasiswa.map(mhs => {
-                        return <PostMahasiswa key={mhs.id} nim={mhs.NIM} nama={mhs.nama}  alamat={mhs.alamat}  hp={mhs.hp}  angkatan={mhs.status}
-                        idArtikel={mhs.id} hapusArtikel={this.handleHapusArtikel}/>
+                    this.state.listMahasiswa.map(mahasiswa=> {
+                        return <PostMahasiswa 
+                        key={mahasiswa.id} 
+                        nim={mahasiswa.nim} 
+                        nama={mahasiswa.nama}
+                        alamat={mahasiswa.alamat}
+                        hp={mahasiswa.hp}
+                        angkatan={mahasiswa.angkatan}
+                        status={mahasiswa.status}    
+                        idMahasiswa={mahasiswa.id} 
+                        hapusMahasiswa={this.handleHapusMahasiswa}/>
                     })
                 }
             </div>
         )
     }
-}
 
+}
 export default BlogPostMahasiswa;

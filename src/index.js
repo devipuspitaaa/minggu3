@@ -5,12 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import BlogPost from "./container/BlogPost/BlogPost";
-//import BlogPostMahasiswa from "./container/BlogPost/BlogPostMahasiswa";
+//import BlogPost from "./container/BlogPost/BlogPost";
+import BlogPostMahasiswa from "./container/BlogPost/BlogPostMahasiswa";
 //import Post from './component/BlogPost/Post';
 
-ReactDOM.render(<BlogPost />, document.getElementById('content'));
-//ReactDOM.render(<BlogPostMahasiswa />, document.getElementById('content'));
+//ReactDOM.render(<BlogPost />, document.getElementById('content'));
+ReactDOM.render(<BlogPostMahasiswa />, document.getElementById('content'));
 //ReactDOM.render(<Post />, document.getElementById('root'));
 
 // const HelloComponent = () =>{
