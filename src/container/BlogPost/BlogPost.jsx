@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import './BlogPost.css';
 import Post from "../../component/BlogPost/Post";
+import API from "../../services/index";
+
 
 class BlogPost extends Component {
     state = {                   // Komponen state dari React untuk statefull component
@@ -14,13 +16,11 @@ class BlogPost extends Component {
     }
 
     ambilDataDariServerAPI = () => {        // Fungsi untuk mengambil data dari API dengan penambahan sort dan order 
-        fetch(`http://localhost:3001/posts?_sort=id&_order=desc`)        // Penambahan sort dan order berdasarkan parameter
-            .then(response => response.json())      // Ubah response data dari URL API menjadi sebuah data json
-            .then(jsonHasilAmbilDariAPI => {        // Data json hasil ambil dari API kita masukkan ke dalam listArtikel pada state
-                this.setState({
-                    listArtikel: jsonHasilAmbilDariAPI
-                })
+        API.getNewsBlog().then(result => {
+            this.setState({
+                listArtikel: result
             })
+        })
     }
 
     componentDidMount() {           // Komponen untuk mengecek ketika component telah di-mount-ing, maka panggil API
@@ -53,7 +53,7 @@ class BlogPost extends Component {
             },
             body: JSON.stringify(this.state.insertArtikel)      // Kirimkan ke body request untuk data artikel yang akan ditambahkan (insert)
         })
-            .then( (response :Response ) => {
+            .then( (response) => {
                 this.ambilDataDariServerAPI();                    // Reload / refresh data
             });
     }
