@@ -45,14 +45,7 @@ class BlogPost extends Component {
     }
 
     handleTombolSimpan = () => {                                // Fungsi untuk meng-handle tombol simpan
-        fetch(`http://localhost:3001/posts`, {
-            method: 'post',                                     // Method POST untuk input/insert data
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state.insertArtikel)      // Kirimkan ke body request untuk data artikel yang akan ditambahkan (insert)
-        })
+        API.postNewsBlog(this.state.insertArtikel)
             .then( (response) => {
                 this.ambilDataDariServerAPI();                    // Reload / refresh data
             });
