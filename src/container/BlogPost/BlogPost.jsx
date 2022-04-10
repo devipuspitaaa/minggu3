@@ -28,10 +28,9 @@ class BlogPost extends Component {
     }
 
     handleHapusArtikel = (data) => {        // Fungsi yang meng-handle button action hapus data
-        fetch(`http://localhost:3001/posts/${data}`, {method: 'DELETE'})        // Alamat URL API yang ingin kita HAPUS datanya
-            .then(res => {      // Ketika proses hapus berhasil, maka ambil data dari server API lokal
-                this.ambilDataDariServerAPI()
-            })
+        API.deleteNewsBlog(data).then((response) => {
+            this.ambilDataDariSeverAPI();
+          });
     }
 
     handleTambahArtikel = (event) => {          // Fungsi untuk meng-handle form tambah data artikel 
